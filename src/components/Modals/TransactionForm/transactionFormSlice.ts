@@ -47,19 +47,19 @@ export const transactionSlice = createSlice({
     toggleVisibility: (state) => {
       state.isVisible = !state.isVisible;
     },
-    addAmount:(state, {payload: value})=>{
-      state.transaction.amount = value
+    addAmount: (state, { payload: value }) => {
+      state.transaction.amount = value;
       const now = new Date();
-      state.transaction.createdAt = now.toISOString()
+      state.transaction.createdAt = now.toISOString();
     },
     setSelectedOptionType: (state, action: PayloadAction<IOptions | null>) => {
       state.selectedType = action.payload;
-      if(action.payload){
-      state.switcher = action.payload?.value
+      if (action.payload) {
+        state.switcher = action.payload?.value;
       }
     },
-    testDispatch:(state, action:PayloadAction<IOptions[]>)=>{
-      state.categoryOptions = action.payload
+    testDispatch: (state, action: PayloadAction<IOptions[]>) => {
+      state.categoryOptions = action.payload;
     },
     setSelectedOptionCategory: (
       state,
@@ -67,13 +67,14 @@ export const transactionSlice = createSlice({
     ) => {
       state.selectedCategory = action.payload;
 
-      if(state.switcher === 'expense'){
-        const obj = state.expense.find(item => item.name === action.payload?.value)
-        if(obj){
-          state.transaction.category = obj.id
+      if (state.switcher === 'expense') {
+        const obj = state.expense.find(
+          (item) => item.name === action.payload?.value,
+        );
+        if (obj) {
+          state.transaction.category = obj.id;
         }
       }
-
     },
   },
   extraReducers: (builder) => {
@@ -85,21 +86,21 @@ export const transactionSlice = createSlice({
       (state, action: PayloadAction<IApiCategory[] | undefined>) => {
         const categories = action.payload;
         if (categories && state.expense.length < 1 && state.income.length < 1) {
-          categories.map((item)=>{
-            if(item.type === 'expense'){
+          categories.map((item) => {
+            if (item.type === 'expense') {
               const exp: IExpense = {
                 name: item.name,
-                id: item.id
-              }
-              state.expense.push(exp)
-            }else{
+                id: item.id,
+              };
+              state.expense.push(exp);
+            } else {
               const inc: IIncome = {
                 name: item.name,
-                id: item.id
-              }
-              state.income.push(inc)
+                id: item.id,
+              };
+              state.income.push(inc);
             }
-          })
+          });
         }
         state.isLoading = false;
       },
@@ -107,15 +108,15 @@ export const transactionSlice = createSlice({
     builder.addCase(fetchTransactionCategories.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(uploadTransaction.pending, (state)=>{
-      state.isLoading = true
-    })
-    builder.addCase(uploadTransaction.fulfilled, (state)=>{
-      state.isLoading = false
-    })
-    builder.addCase(uploadTransaction.rejected, (state)=>{
-      state.isLoading = false
-    })
+    builder.addCase(uploadTransaction.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(uploadTransaction.fulfilled, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(uploadTransaction.rejected, (state) => {
+      state.isLoading = false;
+    });
   },
 });
 export const transactionReducer = transactionSlice.reducer;
@@ -137,6 +138,8 @@ export const isTransactionFormLoading = (state: RootState) =>
 export const isTransactionFormVisible = (state: RootState) =>
   state.transaction.isVisible;
 
-export const transactionFormCategoryOptions = (state:RootState)=>state.transaction.categoryOptions
-export const transactionExpense = (state:RootState)=>state.transaction.expense
-export const transactionIncome = (state:RootState)=>state.transaction.income
+export const transactionFormCategoryOptions = (state: RootState) =>
+  state.transaction.categoryOptions;
+export const transactionExpense = (state: RootState) =>
+  state.transaction.expense;
+export const transactionIncome = (state: RootState) => state.transaction.income;

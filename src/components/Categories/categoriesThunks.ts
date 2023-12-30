@@ -7,7 +7,7 @@ export const fetchCategories = createAsyncThunk<IApiCategory[] | undefined>(
   async () => {
     try {
       const response = await axiosApi.get('tracker/categories.json');
-      let newCategories: IApiCategory[]=[];
+      let newCategories: IApiCategory[] = [];
       if (response.data !== null) {
         newCategories = Object.keys(response.data).map((id) => ({
           id,
@@ -15,7 +15,7 @@ export const fetchCategories = createAsyncThunk<IApiCategory[] | undefined>(
         }));
         return newCategories;
       }
-      return newCategories
+      return newCategories;
     } catch (error) {
       console.log('Caught on try - FETCH CATEGORIES - ', error);
     }
@@ -23,12 +23,13 @@ export const fetchCategories = createAsyncThunk<IApiCategory[] | undefined>(
 );
 
 export const deleteCategory = createAsyncThunk<string | undefined, string>(
-  'categories/delete',async(arg)=>{
+  'categories/delete',
+  async (arg) => {
     try {
-      await axiosApi.delete(`tracker/categories/${arg}.json`)
-      return arg
-    }catch (error){
-      console.log('Caught on try - DELETE CATEGORY - ', error)
+      await axiosApi.delete(`tracker/categories/${arg}.json`);
+      return arg;
+    } catch (error) {
+      console.log('Caught on try - DELETE CATEGORY - ', error);
     }
-  }
-)
+  },
+);

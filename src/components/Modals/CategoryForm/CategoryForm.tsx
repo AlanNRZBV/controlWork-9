@@ -86,17 +86,22 @@ const CategoryForm = () => {
           />
         </Form.Group>
         <div className="align-self-center">
-        <Button variant="primary" type="submit" disabled={isLoading} className="me-5">
-          {isLoading ? <Spinner /> : 'Submit'}
-        </Button>
-        <Button
-          onClick={onCloseHandler}
-          variant="outline-warning"
-          type="button"
-          disabled={isLoading}
-        >
-          Cancel
-        </Button>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={isLoading}
+            className="me-5"
+          >
+            {isLoading ? <Spinner /> : 'Submit'}
+          </Button>
+          <Button
+            onClick={onCloseHandler}
+            variant="outline-warning"
+            type="button"
+            disabled={isLoading}
+          >
+            Cancel
+          </Button>
         </div>
       </Form>
       <Backdrop />

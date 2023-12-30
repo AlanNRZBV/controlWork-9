@@ -28,13 +28,13 @@ const Categories = () => {
     <Container>
       <div className="d-flex justify-content-between mb-3 border-bottom border-1 py-3">
         <span className="fs-4">Categories</span>
-      <button
-        onClick={onClickHandler}
-        type="button"
-        className="btn btn-outline-primary"
-      >
-        add
-      </button>
+        <button
+          onClick={onClickHandler}
+          type="button"
+          className="btn btn-outline-primary"
+        >
+          add
+        </button>
       </div>
 
       {isLoading ? (

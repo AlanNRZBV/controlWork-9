@@ -5,22 +5,21 @@ import Transactions from '../../components/Transactions/Transactions.tsx';
 import { Container } from 'react-bootstrap';
 
 function App() {
-
   return (
     <>
       <header>
-        <Navigation/>
+        <Navigation />
       </header>
       <main>
         <Container>
-        <Routes>
-          <Route path="/" element={<Transactions/>}/>
-          <Route path="/categories" element={<Categories/>}/>
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Transactions />} />
+            <Route path="/categories" element={<Categories />} />
+          </Routes>
         </Container>
       </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
