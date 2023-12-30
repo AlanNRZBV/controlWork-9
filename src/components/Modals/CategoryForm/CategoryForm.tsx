@@ -27,7 +27,6 @@ const CategoryForm = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('edit mode is ', isEditing);
     if (!isEditing) {
       try {
         await dispatch(uploadCategory(category));
@@ -64,9 +63,10 @@ const CategoryForm = () => {
     <>
       <Form
         onSubmit={submitHandler}
-        className="border border-1 rounded-3 p-3 position-absolute top-50 start-50 translate-middle bg-white z-2"
+        className="border border-1 rounded-3 p-3 position-absolute top-50 start-50 translate-middle bg-white z-2 w-50 d-flex flex-column"
       >
         <Form.Group className="mb-3">
+          <Form.Label>Category type</Form.Label>
           <Select
             onChange={selectOnChangeHandler}
             options={options}
@@ -85,7 +85,8 @@ const CategoryForm = () => {
             required
           />
         </Form.Group>
-        <Button variant="primary" type="submit" disabled={isLoading}>
+        <div className="align-self-center">
+        <Button variant="primary" type="submit" disabled={isLoading} className="me-5">
           {isLoading ? <Spinner /> : 'Submit'}
         </Button>
         <Button
@@ -96,6 +97,7 @@ const CategoryForm = () => {
         >
           Cancel
         </Button>
+        </div>
       </Form>
       <Backdrop />
     </>
