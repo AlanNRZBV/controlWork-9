@@ -1,11 +1,13 @@
-import { ICategory, IOptions } from '../../../types';
+import { IApiCategory, ICategory, IOptions } from '../../../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store.ts';
-import { uploadCategory } from './categoryThunks.ts';
+import { uploadCategory} from './categoryThunks.ts';
+import { options } from '../../../constants/constants.ts';
 
 interface CategoryFormState {
   category:ICategory,
-  selected: IOptions | null
+  selected: IOptions | null,
+  editId: string
   isLoading: boolean,
   isEditing: boolean,
   isVisible: boolean
@@ -14,6 +16,7 @@ interface CategoryFormState {
 export const initialState: CategoryFormState={
   category:{type:'',name:''},
   selected: null,
+  editId:'',
   isLoading: false,
   isEditing: false,
   isVisible: false
@@ -27,13 +30,9 @@ export const categoryFormSlice = createSlice({
       state.isVisible = !state.isVisible
     },
     setSelectedOption: (state, action:PayloadAction<IOptions | null>)=>{
-      console.log('setting option with ', action.payload)
       state.selected = action.payload
-      console.log('selected state ', state.selected)
       if (action.payload) {
-        console.log('category type before ', state.category.type);
         state.category.type = action.payload.value;
-        console.log('category type after ', state.category.type);
       }
     },
     addCategory: (
@@ -41,6 +40,13 @@ export const categoryFormSlice = createSlice({
       action: PayloadAction<string>,
     ) => {
       state.category.name = action.payload
+    },
+    editCategory:(state, action:PayloadAction<IApiCategory>)=>{
+      const editCat = action.payload
+      state.editId = editCat.id
+      state.selected = options.find(option => option.value === editCat.type) || null;
+      state.category.name = editCat.name
+      state.isEditing = true
     },
     resetForm: ()=>{
       return initialState
@@ -60,8 +66,9 @@ export const categoryFormSlice = createSlice({
 })
 
 export const categoryFormReducer=  categoryFormSlice.reducer
-export const {toggleVisibility, setSelectedOption, addCategory}=categoryFormSlice.actions
+export const {toggleVisibility, setSelectedOption, addCategory, resetForm, editCategory}=categoryFormSlice.actions
 export const categoryFormState = (state: RootState)=>state.categoryForm.category
 export const categoryFormSelected = (state: RootState)=>state.categoryForm.selected
 export const isCategoryFormLoading = (state: RootState)=>state.categoryForm.isLoading
 export const isCategoryFormVisible = (state: RootState)=>state.categoryForm.isVisible
+export const isCategoryFormEditing = (state:RootState)=>state.categoryForm.isEditing

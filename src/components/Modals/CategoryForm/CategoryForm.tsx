@@ -6,28 +6,45 @@ import {
   addCategory,
   categoryFormSelected,
   categoryFormState,
+  isCategoryFormEditing,
   isCategoryFormLoading,
+  resetForm,
   setSelectedOption,
   toggleVisibility,
 } from './categoryFormSlice.ts';
 import { IOptions } from '../../../types';
 import React from 'react';
-import { uploadCategory } from './categoryThunks.ts';
+import { uploadEditedCategory, uploadCategory } from './categoryThunks.ts';
+import { options } from '../../../constants/constants.ts';
+import { fetchCategories } from '../../Categories/categoriesThunks.ts';
 
 const CategoryForm = () => {
   const dispatch = useAppDispatch();
   const category = useAppSelector(categoryFormState);
   const selected = useAppSelector(categoryFormSelected);
   const isLoading = useAppSelector(isCategoryFormLoading);
+  const isEditing = useAppSelector(isCategoryFormEditing);
 
-  const options: IOptions[] = [
-    { value: 'expense', label: 'Expense' },
-    { value: 'income', label: 'Income' },
-  ];
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(uploadCategory(category));
-    dispatch(toggleVisibility());
+    console.log('edit mode is ', isEditing);
+    if (!isEditing) {
+      try {
+        await dispatch(uploadCategory(category));
+        dispatch(resetForm());
+      } catch (error) {
+        console.log('Caught on try - SUBMIT FORM POST- ', error);
+      }
+    } else {
+      try {
+        await dispatch(uploadEditedCategory(category));
+        await dispatch(fetchCategories());
+
+        dispatch(resetForm());
+      } catch (error) {
+        console.log('Caught on try - SUBMIT FORM PUT- ', error);
+      }
+    }
   };
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,10 +53,7 @@ const CategoryForm = () => {
   };
 
   const selectOnChangeHandler = (selectedOption: IOptions | null) => {
-    console.log('current select value is ', selected?.value)
-
-      dispatch(setSelectedOption(selectedOption));
-
+    dispatch(setSelectedOption(selectedOption));
   };
 
   const onCloseHandler = () => {
