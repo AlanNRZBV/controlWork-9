@@ -1,9 +1,12 @@
+import Navigation from '../../components/Navigation/Navigation.tsx';
 
 function App() {
 
   return (
     <>
-      <span className="text-primary">test</span>
+      <header>
+        <Navigation/>
+      </header>
     </>
   )
 }
