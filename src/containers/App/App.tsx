@@ -1,4 +1,6 @@
 import Navigation from '../../components/Navigation/Navigation.tsx';
+import { Route, Routes } from 'react-router-dom';
+import Categories from '../../components/Categories/Categories.tsx';
 
 function App() {
 
@@ -7,6 +9,11 @@ function App() {
       <header>
         <Navigation/>
       </header>
+      <main>
+        <Routes>
+          <Route path="/categories" element={<Categories/>}/>
+        </Routes>
+      </main>
     </>
   )
 }

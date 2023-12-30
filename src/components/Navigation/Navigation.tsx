@@ -12,7 +12,7 @@ const Navigation = () => {
           <div
             className="d-flex"
           >
-            <NavLink to="/admin" className="text-black nav-link fs-4 me-3">
+            <NavLink to="/categories" className="text-black nav-link fs-4 me-3">
               Categories
             </NavLink>
             <button type="button" className="btn btn-primary">Add</button>
